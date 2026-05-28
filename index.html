@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eeshan Chatterjee · AI Product Leader</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --bg:        #080f17;
+      --bg2:       #0e1b2a;
+      --bg3:       #142236;
+      --card:      #111f30;
+      --border:    rgba(0, 180, 255, 0.12);
+      --cyan:      #00c8f0;
+      --cyan-dim:  rgba(0, 200, 240, 0.15);
+      --cyan-glow: rgba(0, 200, 240, 0.06);
+      --white:     #f0f6ff;
+      --muted:     #7a9ab8;
+      --faint:     #3a5570;
+      --green:     #00e5a0;
+      --amber:     #f59e0b;
+      --font:      'Inter', sans-serif;
+      --mono:      'JetBrains Mono', monospace;
+      --r:         10px;
+      --r-lg:      16px;
+    }
+
+    /* ─── RESET ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    img { max-width: 100%; }
+
+    /* ─── LAYOUT ─────────────────────────────────────────── */
+    .container { max-width: 1060px; margin: 0 auto; padding: 0 28px; }
+    section { padding: 80px 0; }
+
+    /* ─── NAV ────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(8, 15, 23, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      height: 58px; display: flex; align-items: center;
+    }
+    nav .inner {
+      max-width: 1060px; margin: 0 auto; padding: 0 28px;
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+    }
+    nav .logo { font-weight: 700; font-size: 0.95rem; letter-spacing: 0.02em; color: var(--white); }
+    nav .logo span { color: var(--cyan); }
+    nav ul { list-style: none; display: flex; gap: 28px; }
+    nav ul li a { font-size: 0.83rem; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+    nav ul li a:hover { color: var(--white); text-decoration: none; }
+    nav .cta-nav {
+      font-size: 0.8rem; font-weight: 600;
+      background: var(--cyan); color: #080f17;
+      padding: 6px 16px; border-radius: 6px;
+      transition: opacity 0.2s;
+    }
+    nav .cta-nav:hover { opacity: 0.85; text-decoration: none; }
+
+    /* ─── HERO ───────────────────────────────────────────── */
+    #hero {
+      padding-top: 140px; padding-bottom: 90px;
+      position: relative; overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 600px;
+      background: radial-gradient(ellipse at center, rgba(0,200,240,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--cyan-dim); border: 1px solid var(--border);
+      border-radius: 20px; padding: 5px 14px;
+      font-size: 0.75rem; font-weight: 600; color: var(--cyan);
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-label .dot {
+      width: 6px; height: 6px; background: var(--green);
+      border-radius: 50%; animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    #hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 900; line-height: 1.1;
+      letter-spacing: -0.03em;
+      max-width: 1060px;
+    }
+    #hero h1 .accent { color: var(--cyan); }
+    .tagline {
+      margin-top: 16px;
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--muted); letter-spacing: 0.01em;
+    }
+    .tagline span { color: var(--white); }
+    .hero-bio {
+      margin-top: 24px; max-width: 1060px;
+      font-size: 0.96rem; color: var(--muted); line-height: 1.75;
+    }
+    .hero-bio strong { color: var(--white); font-weight: 600; }
+    .hero-actions { margin-top: 36px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px; border-radius: 8px;
+      font-size: 0.88rem; font-weight: 600; transition: all 0.2s;
+      cursor: pointer;
+    }
+    .btn-primary { background: var(--cyan); color: #080f17; }
+    .btn-primary:hover { opacity: 0.88; text-decoration: none; }
+    .btn-ghost {
+      background: transparent; color: var(--white);
+      border: 1px solid var(--faint);
+    }
+    .btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); text-decoration: none; }
+    .hero-domains {
+      margin-top: 40px; display: flex; gap: 10px; flex-wrap: wrap;
+    }
+    .domain-tag {
+      font-size: 0.75rem; font-weight: 500; color: var(--faint);
+      border: 1px solid var(--faint); border-radius: 4px;
+      padding: 3px 10px; letter-spacing: 0.04em;
+    }
+
+    /* ─── IMPACT STATS ───────────────────────────────────── */
+    #stats {
+      padding: 0 0 80px 0;
+    }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border); border-radius: var(--r-lg);
+      overflow: hidden;
+    }
+    .stat-cell {
+      background: var(--card);
+      padding: 32px 24px;
+      position: relative; overflow: hidden;
+    }
+    .stat-cell::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; background: linear-gradient(90deg, var(--cyan), transparent);
+      opacity: 0;  transition: opacity 0.3s;
+    }
+    .stat-cell:hover::before { opacity: 1; }
+    .stat-num {
+      font-size: 2.2rem; font-weight: 900; color: var(--cyan);
+      letter-spacing: -0.03em; line-height: 1;
+    }
+    .stat-label {
+      margin-top: 8px; font-size: 0.78rem; color: var(--muted);
+      line-height: 1.4; font-weight: 500;
+    }
+    .stat-label strong { color: var(--white); display: block; }
+
+    /* ─── SECTION HEADERS ────────────────────────────────── */
+    .section-header { margin-bottom: 48px; }
+    .section-eyebrow {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--cyan); margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      font-weight: 800; color: var(--white); letter-spacing: -0.02em;
+    }
+    .section-sub {
+      margin-top: 10px; color: var(--muted); font-size: 0.95rem; max-width: 700px;
+    }
+
+    /* ─── EXPERIENCE ─────────────────────────────────────── */
+    #experience { background: var(--bg2); }
+    .timeline { position: relative; }
+    .timeline::before {
+      content: ''; position: absolute; left: 11px; top: 8px; bottom: 8px;
+      width: 1px; background: var(--border);
+    }
+    .tl-item { padding-left: 42px; padding-bottom: 44px; position: relative; }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-dot {
+      position: absolute; left: 0; top: 6px;
+      width: 23px; height: 23px; border-radius: 50%;
+      background: var(--bg); border: 2px solid var(--cyan);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .tl-dot-inner {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--cyan);
+    }
+    .tl-dot.dim { border-color: var(--faint); }
+    .tl-dot.dim .tl-dot-inner { background: var(--faint); }
+    .tl-meta {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 6px;
+    }
+    .tl-date {
+      font-size: 0.75rem; font-weight: 600; color: var(--cyan);
+      font-family: var(--mono);
+    }
+    .tl-badge {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+      padding: 2px 8px; border-radius: 4px; text-transform: uppercase;
+    }
+    .badge-contract { background: rgba(245,158,11,0.15); color: var(--amber); }
+    .badge-founder  { background: rgba(0,229,160,0.12);  color: var(--green); }
+    .tl-company { font-size: 1.05rem; font-weight: 700; color: var(--white); }
+    .tl-role    { font-size: 0.88rem; color: var(--muted); margin-bottom: 14px; }
+    .tl-bullets { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .tl-bullets li {
+      font-size: 0.88rem; color: var(--muted); line-height: 1.6;
+      padding-left: 16px; position: relative;
+    }
+    .tl-bullets li::before {
+      content: ''; position: absolute; left: 0; top: 9px;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--cyan); opacity: 0.6;
+    }
+    .tl-bullets li strong { color: var(--white); font-weight: 600; }
+    .tl-earlier {
+      font-size: 0.85rem; color: var(--faint); padding-left: 42px;
+      border-left: none; line-height: 1.7;
+    }
+    .tl-earlier strong { color: var(--muted); }
+
+    /* ─── STACK ──────────────────────────────────────────── */
+    #stack { background: var(--bg); }
+    .stack-groups { display: flex; flex-direction: column; gap: 28px; }
+    .stack-group {}
+    .stack-group-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--faint); margin-bottom: 12px;
+    }
+    .stack-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      font-size: 0.8rem; font-weight: 500;
+      padding: 5px 13px; border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--card); color: var(--muted);
+      transition: all 0.2s;
+    }
+    .chip:hover { border-color: var(--cyan); color: var(--white); }
+    .chip.highlight {
+      border-color: rgba(0,200,240,0.3);
+      background: var(--cyan-dim); color: var(--cyan);
+    }
+
+    /* ─── PROJECTS ───────────────────────────────────────── */
+    #projects { background: var(--bg2); }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .project-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 24px;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: all 0.25s; position: relative; overflow: hidden;
+    }
+    .project-card::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--cyan-glow) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .project-card:hover { border-color: rgba(0,200,240,0.3); transform: translateY(-2px); }
+    .project-card:hover::after { opacity: 1; }
+    .project-icon {
+      width: 38px; height: 38px; border-radius: 8px;
+      background: var(--cyan-dim); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .project-name { font-size: 0.97rem; font-weight: 700; color: var(--white); }
+    .project-org  { font-size: 0.75rem; color: var(--faint); font-weight: 500; margin-top: -6px; }
+    .project-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; flex: 1; }
+    .project-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .project-tag {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.04em;
+      padding: 2px 8px; border-radius: 4px;
+      background: var(--bg3); color: var(--faint);
+    }
+    .project-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.78rem; font-weight: 600; color: var(--cyan);
+      margin-top: 4px;
+    }
+    .project-link:hover { text-decoration: underline; }
+    .project-link svg { transition: transform 0.2s; }
+    .project-card:hover .project-link svg { transform: translate(2px, -2px); }
+
+    /* ─── PORTFOLIO GROUP LABELS ─────────────────────────── */
+    .portfolio-group-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--faint);
+      border-left: 2px solid var(--cyan); padding-left: 10px;
+      margin-bottom: 16px;
+    }
+
+    /* ─── COMPETENCIES ───────────────────────────────────── */
+    #competencies { background: var(--bg); }
+    .comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .comp-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r); padding: 18px 20px;
+      display: flex; align-items: flex-start; gap: 12px;
+      transition: border-color 0.2s;
+    }
+    .comp-card:hover { border-color: rgba(0,200,240,0.25); }
+    .comp-icon {
+      font-size: 1.1rem; line-height: 1;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .comp-text { font-size: 0.84rem; font-weight: 600; color: var(--muted); line-height: 1.4; }
+
+    /* ─── TESTIMONIALS ──────────────────────────────────────── */
+    #testimonials { background: var(--bg2); }
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .testimonial-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 28px 24px;
+      display: flex; flex-direction: column; gap: 16px;
+      position: relative;
+    }
+    .testimonial-card::before {
+      content: '"';
+      position: absolute; top: 14px; right: 20px;
+      font-size: 4rem; line-height: 1; color: var(--cyan);
+      opacity: 0.18; font-family: Georgia, serif; pointer-events: none;
+    }
+    .testimonial-quote {
+      font-size: 0.87rem; color: var(--muted);
+      line-height: 1.75; flex: 1; font-style: italic;
+    }
+    .testimonial-quote em { color: var(--white); font-style: normal; font-weight: 600; }
+    .testimonial-author {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding-top: 14px; border-top: 1px solid var(--border);
+    }
+    .testimonial-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--cyan-dim); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.78rem; font-weight: 700; color: var(--cyan);
+      flex-shrink: 0; letter-spacing: -0.02em;
+    }
+    .testimonial-name { font-size: 0.85rem; font-weight: 700; color: var(--white); }
+    .testimonial-role { font-size: 0.75rem; color: var(--faint); margin-top: 2px; line-height: 1.4; }
+    .testimonial-date { font-size: 0.7rem; color: var(--faint); margin-top: 3px; font-family: var(--mono); }
+    @media (max-width: 768px) {
+      .testimonials-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── FOOTER / CONTACT ───────────────────────────────── */
+    #contact {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      padding: 70px 0;
+      text-align: center;
+    }
+    #contact h2 {
+      font-size: clamp(1.6rem, 3vw, 2rem);
+      font-weight: 800; color: var(--white);
+      letter-spacing: -0.02em; margin-bottom: 12px;
+    }
+    #contact p { color: var(--muted); font-size: 0.95rem; margin-bottom: 32px; }
+    .contact-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+    footer {
+      padding: 24px 0; text-align: center;
+      font-size: 0.75rem; color: var(--faint);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .stats-grid      { grid-template-columns: repeat(2, 1fr); }
+      .projects-grid   { grid-template-columns: 1fr; }
+      .comp-grid       { grid-template-columns: 1fr 1fr; }
+      nav ul           { display: none; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .comp-grid  { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ░░ NAV ░░ -->
+<nav>
+  <div class="inner">
+    <div class="logo">Eeshan Chatterjee <span>|</span> AI Product Leader</div>
+    <ul>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="mailto:eeshanchatterjee@gmail.com" class="btn cta-nav">Get in touch →</a>
+  </div>
+</nav>
+
+<!-- ░░ HERO ░░ -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-label">
+      <span class="dot"></span>
+      14 Years · Principal · GenAI · Available Now
+    </div>
+    <h1>
+      Rapid AI Pilots.<br/>
+      <span class="accent">Robust Enterprise Execution.</span>
+    </h1>
+    <p class="tagline">
+      <span>Data Scientist turned AI PM</span> — I ship 0→1 AI systems, then scale them.
+    </p>
+    <p class="hero-bio">
+      <strong>I read model outputs, write SQL, and own the entire stack from eval harness to exec roadmap.</strong>
+      Built behavioral analytics platforms ingesting 2B+ events/week, agentic chatbot systems driving
+      &gt;$1M/month in savings, and CDPs unifying 3M+ MAU for a global marketplace. I operate
+      at the intersection of ML feasibility, product intuition, and measurable business outcomes.
+    </p>
+    <div class="hero-actions">
+      <a href="https://www.linkedin.com/in/eeshanchatterjee/" target="_blank" class="btn btn-primary">
+        <!-- LinkedIn icon -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/EeshanChatterjee" target="_blank" class="btn btn-ghost">
+        <!-- GitHub icon -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="mailto:eeshanchatterjee@gmail.com" class="btn btn-ghost">
+        eeshanchatterjee@gmail.com
+      </a>
+    </div>
+    <div class="hero-domains">
+      <span class="domain-tag">B2B SaaS</span>
+      <span class="domain-tag">Enterprise DPaaS</span>
+      <span class="domain-tag">Marketplaces</span>
+      <span class="domain-tag">AdTech / MarTech</span>
+      <span class="domain-tag">FinTech</span>
+      <span class="domain-tag">HealthTech</span>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ STATS ░░ -->
+<section id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <div class="stat-num">99.6%</div>
+        <div class="stat-label"><strong>Tracking Coverage</strong>vs. GA's ~60% industry baseline</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">300M+</div>
+        <div class="stat-label"><strong>Daily Events</strong>tracked & analysed in real time</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">$3M</div>
+        <div class="stat-label"><strong>Annual Cost Savings</strong>vs. external analytics tooling</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">100%</div>
+        <div class="stat-label"><strong>Attribution Coverage</strong>across external & internal sources</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ EXPERIENCE ░░ -->
+<section id="experience">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Career</div>
+      <h2 class="section-title">7 Roles · 2012 → 2026</h2>
+      <p class="section-sub">From data science to principal-level AI PM across marketplaces, enterprise SaaS, and adtech.</p>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+        <div class="tl-meta">
+          <span class="tl-date">2021 — 2026</span>
+          <span class="tl-badge badge-contract">Contract</span>
+        </div>
+        <div class="tl-company">Upwork</div>
+        <div class="tl-role">Technical → AI Product Manager, Intelligent Data Systems</div>
+        <ul class="tl-bullets">
+          <li>Prototyped <strong>6+ GraphRAG conversational search & funnel reporting solutions</strong> — 3 prioritized by leadership and picked up by engineering in Q2 2026.</li>
+          <li>Internalized Heap &amp; VWO → built <strong>0→1 AI-powered tracking &amp; experimentation platform</strong>: self-serve A/B + MAB testing across <strong>300M daily events, 15,000+ pages &amp; 20+ subsystems</strong> for a 3M+ MAU marketplace.</li>
+          <li>Architected <strong>Upwork's CDP on Snowflake + Neo4J</strong>, unifying every active, latent &amp; passive touchpoint into an agentic (MCP-ready) customer intelligence layer ingesting <strong>2B+ behavioral events/week</strong>.</li>
+          <li>Shipped <strong>SUIT 2.0</strong> — platform-wide behavioral instrumentation standard adopted across all product teams; drove AutoML model portfolio for predictive targeting &amp; performance marketing.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+        <div class="tl-meta">
+          <span class="tl-date">2020 — 2026</span>
+          <span class="tl-badge badge-founder">Founder</span>
+        </div>
+        <div class="tl-company">Aroha Innovation Consulting</div>
+        <div class="tl-role">Founder &amp; Principal Consultant</div>
+        <ul class="tl-bullets">
+          <li>AI product strategy for <strong>10+ startups, VCs &amp; enterprise clients</strong> (incl. Twitter/X): roadmaps, OKRs, data platform architecture, and GTM execution across marketplace, fintech, e-commerce, and enterprise SaaS.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+        <div class="tl-meta">
+          <span class="tl-date">2017 — 2018</span>
+          <span class="tl-badge badge-contract">Contract</span>
+        </div>
+        <div class="tl-company">Harman Connected Services <span style="color:var(--faint);font-weight:400">(contracted to Microsoft)</span></div>
+        <div class="tl-role">Lead Architect, Data Products</div>
+        <ul class="tl-bullets">
+          <li>Built <strong>MS ASSIST</strong>: pre-agentic enterprise chatbot platform — 30+ bots, 10K+ sessions/day → <strong>&gt;$1M/month</strong> in operational cost savings. RAG-like tokenized storage + vector-match retrieval + pre-LLM NLP summarization.</li>
+          <li>Architected <strong>MS GSOC</strong>: real-time IoT physical security platform — <strong>3,000+ sites, 75K+ cameras, 150K+ RFID readers</strong> globally.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"><div class="tl-dot-inner"></div></div>
+        <div class="tl-meta">
+          <span class="tl-date">2014 — 2017</span>
+        </div>
+        <div class="tl-company">MediaIQ Digital <span style="color:var(--faint);font-weight:400">(now MIQ)</span></div>
+        <div class="tl-role">Product Lead &amp; Senior Data Scientist</div>
+        <ul class="tl-bullets">
+          <li><strong>LOCATE</strong> (location intelligence targeting) → <strong>$1M/month revenue in 6 months</strong>, 5B events/day.</li>
+          <li><strong>ELEVATE</strong> (qualitative ad measurement) → <strong>$1M/month in 8 months</strong>, 25B+ records/day.</li>
+          <li><strong>MACRO</strong>: 30TB+ multi-source data stitching platform powering real-time ML-driven programmatic campaigns across 50+ datasets.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot dim"><div class="tl-dot-inner"></div></div>
+        <div class="tl-earlier">
+          <strong>2012 – 2020 &nbsp;·&nbsp; Earlier roles:</strong><br/>
+          Head of Product, Cerebronics — led Myntelligence 0→$500K ARR → Mastercard white-label (now Mint.ai) &nbsp;|&nbsp;
+          Partner, NashWorks &nbsp;|&nbsp;
+          Lead Innovation &amp; Commercialization, Mu Sigma (Fortune 500 clients)
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ░░ STACK ░░ -->
+<section id="stack">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Technical Depth</div>
+      <h2 class="section-title">GenAI & Data Stack</h2>
+      <p class="section-sub">I don't just spec the stack — I've built with it.</p>
+    </div>
+    <div class="stack-groups">
+
+      <div class="stack-group">
+        <div class="stack-group-label">Agentic / Orchestration</div>
+        <div class="stack-chips">
+          <span class="chip highlight">n8n</span>
+          <span class="chip highlight">MCP</span>
+          <span class="chip highlight">CoWork</span>
+          <span class="chip highlight">GraphRAG</span>
+          <span class="chip">RAG (Hybrid, BM25+Vector)</span>
+          <span class="chip">Prompt Engineering</span>
+        </div>
+      </div>
+
+      <div class="stack-group">
+        <div class="stack-group-label">Foundation Models</div>
+        <div class="stack-chips">
+          <span class="chip highlight">Claude</span>
+          <span class="chip highlight">OpenAI</span>
+          <span class="chip">Gemini</span>
+          <span class="chip">Llama</span>
+          <span class="chip">Grok</span>
+          <span class="chip">AWS Bedrock</span>
+        </div>
+      </div>
+
+      <div class="stack-group">
+        <div class="stack-group-label">Vector / Retrieval</div>
+        <div class="stack-chips">
+          <span class="chip">Pinecone</span>
+          <span class="chip">ChromaDB</span>
+          <span class="chip">Neo4J</span>
+          <span class="chip">Docling</span>
+          <span class="chip">LlamaParse</span>
+        </div>
+      </div>
+
+      <div class="stack-group">
+        <div class="stack-group-label">Data & Analytics Platform</div>
+        <div class="stack-chips">
+          <span class="chip highlight">Snowflake</span>
+          <span class="chip">Snowplow</span>
+          <span class="chip">Amplitude</span>
+          <span class="chip">Athena</span>
+          <span class="chip">MongoDB</span>
+          <span class="chip">Postgres</span>
+          <span class="chip">AWS (S3, Lambda, SQS, EKS)</span>
+          <span class="chip">Spark</span>
+          <span class="chip">Kafka</span>
+          <span class="chip">Atlan</span>
+          <span class="chip">Datadog</span>
+        </div>
+      </div>
+
+      <div class="stack-group">
+        <div class="stack-group-label">ML Frameworks & Platforms</div>
+        <div class="stack-chips">
+          <span class="chip">TensorFlow</span>
+          <span class="chip">PyTorch</span>
+          <span class="chip">scikit-learn</span>
+          <span class="chip">XGBoost</span>
+          <span class="chip">SageMaker</span>
+          <span class="chip">Databricks</span>
+          <span class="chip">MLflow</span>
+          <span class="chip">Spark MLlib</span>
+        </div>
+      </div>
+
+      <div class="stack-group">
+        <div class="stack-group-label">Languages & Code</div>
+        <div class="stack-chips">
+          <span class="chip">Python</span>
+          <span class="chip">R</span>
+          <span class="chip">SQL</span>
+          <span class="chip">Docker</span>
+          <span class="chip">Atlassian Stack</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ░░ PROJECTS ░░ -->
+<section id="projects">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Portfolio</div>
+      <h2 class="section-title">Selected AI Products Shipped</h2>
+      <p class="section-sub">Real systems, real scale, real revenue — not prototypes.</p>
+    </div>
+
+    <!-- ENTERPRISE -->
+    <div class="portfolio-group-label">Enterprise</div>
+    <div class="projects-grid" style="margin-bottom: 48px;">
+
+      <div class="project-card">
+        <div class="project-icon">📊</div>
+        <div>
+          <div class="project-name">SUIT 2.0 + Upwork CDP</div>
+          <div class="project-org">Upwork · 2021–2026</div>
+        </div>
+        <p class="project-desc">Platform-wide behavioral instrumentation standard + Snowflake/Neo4J CDP unifying 3M+ MAU touchpoints into an MCP-ready customer intelligence layer. 300M events/day, $3M in tool cost savings.</p>
+        <div class="project-tags">
+          <span class="project-tag">CDP</span>
+          <span class="project-tag">GraphRAG</span>
+          <span class="project-tag">Snowflake</span>
+          <span class="project-tag">Neo4J</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🤖</div>
+        <div>
+          <div class="project-name">MS ASSIST</div>
+          <div class="project-org">Harman / Microsoft · 2017–2018</div>
+        </div>
+        <p class="project-desc">Enterprise pre-agentic chatbot platform. 30+ bots, 10K+ sessions/day, >$1M/month in cost savings. RAG-like architecture with tokenized storage, vector-match retrieval and NLP summarization — years before ChatGPT.</p>
+        <div class="project-tags">
+          <span class="project-tag">Chatbot</span>
+          <span class="project-tag">NLP</span>
+          <span class="project-tag">Enterprise</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">📍</div>
+        <div>
+          <div class="project-name">LOCATE + ELEVATE + MACRO</div>
+          <div class="project-org">MediaIQ · 2014–2017</div>
+        </div>
+        <p class="project-desc">Three products, each hitting $1M/month. LOCATE: location intelligence at 5B events/day. ELEVATE: qualitative ad measurement at 25B+ records/day. MACRO: 30TB+ multi-source data stitching for ML-driven ad campaigns.</p>
+        <div class="project-tags">
+          <span class="project-tag">AdTech</span>
+          <span class="project-tag">ML</span>
+          <span class="project-tag">Petabyte Scale</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🔒</div>
+        <div>
+          <div class="project-name">MS GSOC</div>
+          <div class="project-org">Harman / Microsoft · 2017–2018</div>
+        </div>
+        <p class="project-desc">Real-time IoT global physical security platform. 3,000+ locations, 75,000+ cameras, 150,000+ RFID readers — all unified into a single real-time monitoring and analytics layer.</p>
+        <div class="project-tags">
+          <span class="project-tag">IoT</span>
+          <span class="project-tag">Real-time</span>
+          <span class="project-tag">Global Scale</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🛒</div>
+        <div>
+          <div class="project-name">Myntelligence → Mint.ai</div>
+          <div class="project-org">Cerebronics · 2018–2020</div>
+        </div>
+        <p class="project-desc">Omni-channel marketing intelligence platform. Led 0→$500K ARR in beta. Mastercard white-labeled it as their internal marketing automation platform — now known as Mint.ai.</p>
+        <div class="project-tags">
+          <span class="project-tag">MarTech</span>
+          <span class="project-tag">0→1</span>
+          <span class="project-tag">Enterprise</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- DEMONSTRATORS -->
+    <div class="portfolio-group-label">Demonstrators</div>
+    <div class="projects-grid">
+
+      <div class="project-card" style="border-style: dashed; border-color: var(--faint);">
+        <div class="project-icon" style="background: transparent; border-color: var(--faint);">🔬</div>
+        <div>
+          <div class="project-name" style="color: var(--muted);">SynthPM</div>
+          <div class="project-org">Aroha Innovation · 2026</div>
+        </div>
+        <p class="project-desc" style="color: var(--faint);">LLM-powered user research synthesis tool. Takes raw interview transcripts, app reviews, and survey data → outputs structured PM artifacts: themes, JTBD statements, opportunity scores, and experiment hypotheses.</p>
+        <div class="project-tags">
+          <span class="project-tag">GenAI</span>
+          <span class="project-tag">Claude API</span>
+          <span class="project-tag">RAG</span>
+          <span class="project-tag">Evals</span>
+        </div>
+        <span class="project-link" style="color: var(--faint); cursor: default;">
+          Coming soon
+        </span>
+      </div>
+
+      <div class="project-card">
+        <div class="project-icon">🍗</div>
+        <div>
+          <div class="project-name">Bao to the Wings POS</div>
+          <div class="project-org">Aroha Innovation · 2026</div>
+        </div>
+        <p class="project-desc">AI-augmented point-of-sale system for a food & beverage business. Built to demonstrate rapid 0→1 agentic AI product delivery — from business requirements to working software.</p>
+        <div class="project-tags">
+          <span class="project-tag">Agentic</span>
+          <span class="project-tag">0→1</span>
+          <span class="project-tag">F&B</span>
+          <span class="project-tag">POS</span>
+        </div>
+        <a href="https://github.com/EeshanChatterjee" target="_blank" class="project-link">
+          View on GitHub
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ░░ COMPETENCIES ░░ -->
+<section id="competencies">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Core Skills</div>
+      <h2 class="section-title">What I bring to a team</h2>
+    </div>
+    <div class="comp-grid">
+      <div class="comp-card"><div class="comp-icon">🧠</div><div class="comp-text">AI Native Product Strategy</div></div>
+      <div class="comp-card"><div class="comp-icon">🚀</div><div class="comp-text">Rapid 0 → 1 Buildout</div></div>
+      <div class="comp-card"><div class="comp-icon">🔬</div><div class="comp-text">Experimentation & MAB Testing</div></div>
+      <div class="comp-card"><div class="comp-icon">🏗️</div><div class="comp-text">Intelligent Data Infrastructure</div></div>
+      <div class="comp-card"><div class="comp-icon">🤖</div><div class="comp-text">GenAI & Agentic System Design</div></div>
+      <div class="comp-card"><div class="comp-icon">✍️</div><div class="comp-text">Prompt Engineering</div></div>
+      <div class="comp-card"><div class="comp-icon">📈</div><div class="comp-text">Data, Analytics & ML</div></div>
+      <div class="comp-card"><div class="comp-icon">📣</div><div class="comp-text">MarTech & Data Platforms</div></div>
+      <div class="comp-card"><div class="comp-icon">📊</div><div class="comp-text">Growth & Activation</div></div>
+      <div class="comp-card"><div class="comp-icon">👥</div><div class="comp-text">Team Building & Mentorship</div></div>
+      <div class="comp-card"><div class="comp-icon">⚙️</div><div class="comp-text">Data Engineering & Development</div></div>
+      <div class="comp-card"><div class="comp-icon">🌐</div><div class="comp-text">GTM Strategy & Execution</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ TESTIMONIALS ░░ -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Social Proof</div>
+      <h2 class="section-title">What colleagues say</h2>
+      <p class="section-sub">Recommendations from LinkedIn — engineers, leads, and platform builders who've worked alongside me.</p>
+    </div>
+    <div class="testimonials-grid">
+
+      <div class="testimonial-card">
+        <p class="testimonial-quote">
+          "Eeshan is a <em>brilliant technical Product Manager</em> who knows how to design scalable data products,
+          quickly understand stakeholder needs, and anticipate issues before they become blockers.
+          His combination of <em>technical depth, product judgment, and business savvy is rare</em>,
+          and I learned a lot from partnering with him. Together, we designed, owned, and managed
+          highly critical data marts, nearly 100 TB in size, used across the company to guide
+          business decision-making."
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">GBR</div>
+          <div>
+            <div class="testimonial-name">Giovani Baroni R. Miguel</div>
+            <div class="testimonial-role">Lead Data Engineer · Worked with Eeshan on the same team</div>
+            <div class="testimonial-date">May 2026</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <p class="testimonial-quote">
+          "His then nascent ability to <em>marry technicalities with clear, salient communication</em>
+          was already beginning to develop. It is now this skill, fully developed, that serves him
+          very well. It is great to see that he has <em>built upon his natural skills with intentionality</em>."
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">KG</div>
+          <div>
+            <div class="testimonial-name">Krishnaraj Gharpure</div>
+            <div class="testimonial-role">Tech Team Lead · Senior to Eeshan</div>
+            <div class="testimonial-date">March 2024</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card">
+        <p class="testimonial-quote">
+          "Eeshan is a very enthusiastic person with a <em>diverse skill set</em>.
+          He has dabbled in everything from Technology to Business and proved <em>proficient at each of them</em>.
+          It's always been a pleasure to work with him — whether bouncing ideas or delivering
+          a project with a tight deadline."
+        </p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">AJ</div>
+          <div>
+            <div class="testimonial-name">Avinash Joshi</div>
+            <div class="testimonial-role">ML &amp; Gen AI Platform @ Snowflake · Senior to Eeshan</div>
+            <div class="testimonial-date">Oct 2014</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ░░ CONTACT ░░ -->
+<section id="contact">
+  <div class="container">
+    <h2>Let's build something real.</h2>
+    <p>Available for senior AI PM roles — B2B SaaS, marketplace, fintech, or healthtech. CST / PST aligned.</p>
+    <div class="contact-links">
+      <a href="mailto:eeshanchatterjee@gmail.com" class="btn btn-primary">
+        eeshanchatterjee@gmail.com
+      </a>
+      <a href="https://www.linkedin.com/in/eeshanchatterjee/" target="_blank" class="btn btn-ghost">
+        LinkedIn →
+      </a>
+      <a href="https://wellfound.com/u/eeshan-chatterjee" target="_blank" class="btn btn-ghost">
+        Wellfound →
+      </a>
+      <a href="https://www.upwork.com/freelancers/~0144f9c96f868f022c/" target="_blank" class="btn btn-ghost">
+        Upwork →
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    © 2026 Eeshan Chatterjee · Pune, India · Built with intention, not templates.
+  </div>
+</footer>
+
+</body>
+</html>
